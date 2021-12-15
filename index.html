@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="./images/icon-bear.jpg" />
+    <link rel="stylesheet" href="./css/index.css" />
+    <title>Video pLayer</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="player">
+        <video
+          poster="./images/poster.png"
+          src="./videos/osito.mp4"
+          id="video"
+        ></video>
+        <div class="player-overlay">
+          <h2 class="player-title">Bobo</h2>
+          <div class="player-actions">
+            <button
+              aria-label="play"
+              title="play"
+              class="button"
+              id="play"
+            ></button>
+            <button
+              aria-label="pause"
+              title="pause"
+              class="button"
+              id="pause"
+              hidden
+            ></button>
+            <button
+              aria-label="backward 10 seconds"
+              title="backward 10 seconds"
+              class="button"
+              id="backward"
+            ></button>
+            <button
+              aria-label="forward 10 seconds"
+              title="forward 10 seconds"
+              class="button"
+              id="forward"
+            ></button>
+          </div>
+          <div class="player-progress">
+            <input type="range" id="progress" min="10" step="1" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const $video = document.querySelector("#video");
+      const $play = document.querySelector("#play");
+      const $pause = document.querySelector("#pause");
+      const $backward = document.querySelector("#backward");
+      const $forward = document.querySelector("#forward");
+      const $progress = document.querySelector("#progress");
+
+      $video.addEventListener("loadedmetadata", handleVideoLoaded);
+      $video.addEventListener("timeupdate", handleVideoTimeUpdate);
+      $play.addEventListener("click", handlePlay);
+      $pause.addEventListener("click", handlePause);
+      $backward.addEventListener("click", handleBackward);
+      $forward.addEventListener("click", handleForward);
+      $progress.addEventListener("input", handleProgressChange);
+
+      function handlePlay() {
+        $video.play();
+        $play.hidden = true;
+        $pause.hidden = false;
+      }
+      function handlePause() {
+        $video.pause();
+        $play.hidden = false;
+        $pause.hidden = true;
+      }
+      function handleBackward() {
+        $video.currentTime = $video.currentTime - 10;
+      }
+      function handleForward() {
+        $video.currentTime = $video.currentTime + 10;
+      }
+      function handleVideoLoaded() {
+        $progress.max = $video.duration;
+      }
+      function handleVideoTimeUpdate() {
+        $progress.value = $video.currentTime;
+      }
+
+      function handleProgressChange() {
+        $video.currentTime = $progress.value;
+      }
+    </script>
+  </body>
+</html>
